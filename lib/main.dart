@@ -23,12 +23,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _canCheckBiometricsResult;
+  List<BiometricType> _getAvailableBiometricsResult;
 
   void _checkBiometrics() async {
-    final result = await widget.localAuth.canCheckBiometrics;
-
+    final checkResult = await widget.localAuth.canCheckBiometrics;
+    final getResult = await widget.localAuth.getAvailableBiometrics();
     setState(() {
-      _canCheckBiometricsResult = result;
+      _canCheckBiometricsResult = checkResult;
+      _getAvailableBiometricsResult = getResult;
     });
   }
 
@@ -47,6 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '${_canCheckBiometricsResult ?? ''}',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              'The result of getAvailableBiometrics (length):',
+            ),
+            Text(
+              '${_getAvailableBiometricsResult?.length ?? ''}',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
